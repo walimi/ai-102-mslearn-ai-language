@@ -1,44 +1,20 @@
-# Visual Studio files
+# Ignore Visual Studio files
 .vs/
-*.suo
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore NuGet packages
+*.nupkg
+
+# Ignore user-specific files
 *.user
-*.sln.docstates
 
-# Build results
-[Dd]ebug/
-[Rr]elease/
-[Oo]bj/
-x64/
-x86/
-
-# NuGet packages
-packages/
-
-# User-specific files
+# Ignore .NET Core build cache
+*.dll
+*.pdb
+*.json
 *.suo
-*.user
-*.sln.docstates
-
-# .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
-
-# Resharper
-_ReSharper*/
-
-# Rider
-.idea/
-
-# Visual Studio Code
-.vscode/
-
-# Others
-*.log
-*.vspscc
-*.vssscc
-*.pidb
-*.svclog
-*.bak
 *.cache
 *.csproj.user
