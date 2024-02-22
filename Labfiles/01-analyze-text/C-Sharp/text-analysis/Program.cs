@@ -4,7 +4,8 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 
 // Import namespaces
-
+using Azure;
+using Azure.AI.TextAnalytics;
 
 namespace text_analysis
 {
@@ -21,6 +22,9 @@ namespace text_analysis
                 string aiSvcKey = configuration["AIServicesKey"];
 
                 // Create client using endpoint and key
+                AzureKeyCredential credentials = new AzureKeyCredential(aiSvcKey);
+                Uri endpoint = new Uri(aiSvcEndpoint);
+                TextAnalyticsClient aiClient = new TextAnalyticsClient(endpoint, credentials);
 
 
                 // Analyze each text file in the reviews folder
@@ -36,6 +40,8 @@ namespace text_analysis
                     Console.WriteLine("\n" + text);
 
                     // Get language
+                    DetectedLanguage detectedLanguage = aiClient.DetectLanguage(text); 
+                    Console.WriteLine($"\nLanguage: {detectedLanguage.Name}");
 
 
                     // Get sentiment
