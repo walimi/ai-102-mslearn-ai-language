@@ -61,11 +61,27 @@ namespace text_analysis
 
 
                     // Get entities
+                    CategorizedEntityCollection entities = aiClient.RecognizeEntities(text);
+                    if (entities.Count > 0)
+                    {
+                        Console.WriteLine("\nEntities:");
+                        foreach(CategorizedEntity entity in entities)
+                        {
+                            Console.WriteLine($"\t{entity.Text} ({entity.Category})");
+                        }
+                    }
 
 
                     // Get linked entities
-
-
+                    LinkedEntityCollection linkedEntities = aiClient.RecognizeLinkedEntities(text);
+                    if (linkedEntities.Count > 0)
+                    {
+                        Console.WriteLine("\nLinks:");
+                        foreach(LinkedEntity linkedEntity in linkedEntities)
+                        {
+                            Console.WriteLine($"\t{linkedEntity.Name} ({linkedEntity.Url})");
+                        }
+                    }
                 }
             }
             catch (Exception ex)
