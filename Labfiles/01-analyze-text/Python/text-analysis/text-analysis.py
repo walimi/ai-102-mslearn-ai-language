@@ -36,6 +36,11 @@ def main():
             print("\nSentiment: {}".format(sentimentAnalysis.sentiment))
 
             # Get key phrases
+            phrases = ai_client.extract_key_phrases(documents=[text])[0].key_phrases
+            if len(phrases) > 0:
+                print("\nKey phrases:")
+                for phrase in phrases:
+                    print('\t{}'.format(phrase))
 
 
             # Get entities
