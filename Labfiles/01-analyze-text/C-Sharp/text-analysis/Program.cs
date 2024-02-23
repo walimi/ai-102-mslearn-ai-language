@@ -45,7 +45,8 @@ namespace text_analysis
 
 
                     // Get sentiment
-
+                    DocumentSentiment sentimentAnalysis = aiClient.AnalyzeSentiment(text);
+                    Console.WriteLine($"\nSentiment: {sentimentAnalysis.Sentiment}");
 
                     // Get key phrases
 
