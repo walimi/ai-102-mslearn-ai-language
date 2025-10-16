@@ -71,14 +71,19 @@ def TellTime():
 
 
     # Synthesize spoken output
-    speak = speech_synthesizer.speak_text_async(response_text).get()
+    responseSsml = " \
+    <speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'> \
+        <voice name='tr-TR-EmelNeural'> \
+            {} \
+            <break strength='weak'/> \
+            Time to end this lab! \
+        </voice> \
+    </speak>".format(response_text)
+    speak = speech_synthesizer.speak_ssml_async(responseSsml).get()
     if speak.reason != speech_sdk.ResultReason.SynthesizingAudioCompleted:
         print(speak.reason)
     else:
-        print(f"Spoken output saved in {output_file}")
-
-    # Print the response
-    print(response_text)
+        print("Spoken output saved in " + output_file)
 
 
 if __name__ == "__main__":
