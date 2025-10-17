@@ -1,0 +1,7 @@
+bin
+obj
+*.sln
+
+# Ignore labenv folder and all its contents
+labenv/
+.env
