@@ -23,6 +23,7 @@ def main():
         translation_config.add_target_language('fa')
         translation_config.add_target_language('uz')
         translation_config.add_target_language('de')
+        translation_config.add_target_language('ur')
         print('Ready to translate from ', translation_config.speech_recognition_language)
         
 
@@ -33,7 +34,7 @@ def main():
         # Get user input
         targetLanguage = ''
         while targetLanguage != 'quit':
-            targetLanguage = input('\nEnter a target language\n tr = Turkish\n fa = Iranian\n uz = Uzbeki\n de = German \nEnter anything else to stop\n').lower()
+            targetLanguage = input('\nEnter a target language\n tr = Turkish\n fa = Iranian\n uz = Uzbeki\n ur = Urdu \nEnter anything else to stop\n').lower()
             if targetLanguage in translation_config.target_languages:
                 Translate(targetLanguage)
             else:
@@ -47,11 +48,9 @@ def Translate(targetLanguage):
     translation = ''
 
     # Translate speech
-    current_dir = os.getcwd()
-    audioFile = current_dir + '/station.wav'
-    audio_config_in = speech_sdk.AudioConfig(filename=audioFile)
-    translator = speech_sdk.translation.TranslationRecognizer(translation_config, audio_config = audio_config_in)
-    print('Getting speech from file...')
+    audio_config_in = speech_sdk.AudioConfig(use_default_microphone=True)
+    translator = speech_sdk.translation.TranslationRecognizer(translation_config, audio_config=audio_config_in)
+    print("Speak into your microphone.")
     result = translator.recognize_once_async().get()
     print('Translating "{}"'.format(result.text))
     translation = result.translations[targetLanguage]
@@ -59,23 +58,19 @@ def Translate(targetLanguage):
 
 
     # Synthesize translation
-    output_file = "output.wav"
     voices = {
         "tr": "tr-TR-EmelNeural",
         "fa": "fa-IR-FaridNeural",
         "uz": "uz-UZ-SardorNeural",
-        "de": "de-DE-AmalaNeural"
+        "ur": "ur-PK-AsadNeural"
     }
 
     speech_config.speech_synthesis_voice_name = voices.get(targetLanguage)
-    audio_config_out = speech_sdk.audio.AudioConfig(filename=output_file)
+    audio_config_out = speech_sdk.audio.AudioOutputConfig(use_default_speaker=True)
     speech_synthesizer = speech_sdk.SpeechSynthesizer(speech_config, audio_config_out)
     speak = speech_synthesizer.speak_text_async(translation).get()
     if speak.reason != speech_sdk.ResultReason.SynthesizingAudioCompleted:
         print(speak.reason)
-    else:
-        print("Spoken output saved in " + output_file)
-
 
 
 if __name__ == "__main__":
